@@ -263,9 +263,9 @@ class OrdinaryKriging:
         # referencing the original passed arguments.
         # Also, values are forced to be float... in the future, might be worth
         # developing complex-number kriging (useful for vector field kriging)
-        self.X_ORIG = np.atleast_1d(np.squeeze(np.array(x, copy=True, dtype=np.float64)))
-        self.Y_ORIG = np.atleast_1d(np.squeeze(np.array(y, copy=True, dtype=np.float64)))
-        self.Z = np.atleast_1d(np.squeeze(np.array(z, copy=True, dtype=np.float64)))
+        self.X_ORIG = np.atleast_1d(np.squeeze(np.array(x, copy=True, dtype=np.float32)))
+        self.Y_ORIG = np.atleast_1d(np.squeeze(np.array(y, copy=True, dtype=np.float32)))
+        self.Z = np.atleast_1d(np.squeeze(np.array(z, copy=True, dtype=np.float32)))
 
         self.verbose = verbose
         self.enable_plotting = enable_plotting
@@ -499,7 +499,7 @@ class OrdinaryKriging:
 
         xy = np.concatenate((self.X_ADJUSTED[:, np.newaxis], self.Y_ADJUSTED[:, np.newaxis]), axis=1)
         d = cdist(xy, xy, 'euclidean')
-        a = np.zeros((n+1, n+1))
+        a = np.zeros((n+1, n+1), dtype="float16")
         a[:n, :n] = - self.variogram_function(self.variogram_model_parameters, d)
         np.fill_diagonal(a, 0.)
         a[n, :] = 1.0

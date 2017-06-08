@@ -523,7 +523,7 @@ class OrdinaryKriging:
             zero_value = True
             zero_index = np.where(np.absolute(bd) <= self.eps)
 
-        b = np.zeros((npt, n+1, 1))
+        b = np.zeros((npt, n+1, 1), dtype="float16")
         b[:, :n, 0] = - self.variogram_function(self.variogram_model_parameters, bd)
         if zero_value:
             b[zero_index[0], zero_index[1], 0] = 0.0
@@ -545,8 +545,8 @@ class OrdinaryKriging:
 
         npt = bd_all.shape[0]
         n = self.X_ADJUSTED.shape[0]
-        zvalues = np.zeros(npt)
-        sigmasq = np.zeros(npt)
+        zvalues = np.zeros(npt, dtype="float16")
+        sigmasq = np.zeros(npt, dtype="float16")
 
         a_inv = scipy.linalg.inv(a)
 
@@ -559,7 +559,7 @@ class OrdinaryKriging:
                 zero_index = None
                 zero_value = False
 
-            b = np.zeros((n+1, 1))
+            b = np.zeros((n+1, 1), dtype="float16")
             b[:n, 0] = - self.variogram_function(self.variogram_model_parameters, bd)
             if zero_value:
                 b[zero_index[0], 0] = 0.0
@@ -577,8 +577,8 @@ class OrdinaryKriging:
 
         npt = bd_all.shape[0]
         n = bd_idx.shape[1]
-        zvalues = np.zeros(npt)
-        sigmasq = np.zeros(npt)
+        zvalues = np.zeros(npt, dtype="float16")
+        sigmasq = np.zeros(npt, dtype="float16")
 
         for i in np.nonzero(~mask)[0]:   # Note that this is the same thing as range(npt) if mask is not defined,
             b_selector = bd_idx[i]       # otherwise it takes the non-masked elements.
@@ -593,7 +593,7 @@ class OrdinaryKriging:
             else:
                 zero_index = None
                 zero_value = False
-            b = np.zeros((n+1, 1))
+            b = np.zeros((n+1, 1), dtype="float16")
             b[:n, 0] = - self.variogram_function(self.variogram_model_parameters, bd)
             if zero_value:
                 b[zero_index[0], 0] = 0.0

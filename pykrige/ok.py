@@ -693,7 +693,7 @@ class OrdinaryKriging:
                         raise ValueError("Mask dimensions do not match specified grid dimensions.")
                 mask = mask.flatten()
             npt = ny*nx
-            grid_x, grid_y = np.meshgrid(xpts, ypts)
+            grid_x, grid_y = np.meshgrid(xpts, ypts, copy=False)
             xpts = grid_x.flatten()
             ypts = grid_y.flatten()
 
